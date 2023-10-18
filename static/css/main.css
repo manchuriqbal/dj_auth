@@ -1,0 +1,21 @@
+.centered {
+    width: 100% !important;
+    height: 80vh !important;
+    overflow: hidden !important;
+}
+.form-control{
+    outline: none !important;
+    box-shadow: none !important;
+    border-color: none !important;
+}
+.form-control:focus{
+    outline: black !important;
+    box-shadow: black !important;
+    border-color: black !important;
+}
+
+.errorlist {
+    padding-left: 0px;
+    color: red;
+    list-style: none;
+}
