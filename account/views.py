@@ -1,3 +1,4 @@
+from typing import Any
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -7,7 +8,7 @@ from django.views.decorators.cache import never_cache
 from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
 
-from .forms import LoginForms, RegistationForms
+from .forms import LoginForms, RegistationForms, ChangePasswordForm
 from .mixins import LogoutRequiredMixin
 
 
@@ -56,6 +57,26 @@ class Registation(LogoutRequiredMixin, generic.CreateView):
 
     def form_valid(self, form):
         messages.success(self.request, 'Registation Successfull!')
+        return super().form_valid(form)
+    
+@method_decorator(never_cache, name="dispatch")
+class ChangePassword(LoginRequiredMixin, generic.FormView):
+    template_name = 'account/change_password.html'
+    form_class = ChangePasswordForm
+    login_url = reverse_lazy('login')
+    success_url = reverse_lazy('login')
+    
+    def get_form_kwargs(self):
+        context = super().get_form_kwargs()
+        context["user"] = self.request.user
+        return context
+
+    def form_valid(self, form):
+        new_password = form.cleaned_data.get("new_password1")
+        user = self.request.user
+        user.set_password(new_password)
+        user.save()
+        messages.success(self.request, 'Password Change Successfully!')
         return super().form_valid(form)
     
     

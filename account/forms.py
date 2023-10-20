@@ -1,3 +1,4 @@
+from typing import Any
 from django import forms
 from django.contrib.auth import get_user_model
 
@@ -68,3 +69,35 @@ class RegistationForms(forms.ModelForm):
             user.save()
 
         return user
+    
+
+class ChangePasswordForm(forms.Form):
+    current_password = forms.CharField(max_length=150, widget=forms.PasswordInput)
+    new_password1 = forms.CharField(max_length=150, widget=forms.PasswordInput)
+    new_password2 = forms.CharField(max_length=150, widget=forms.PasswordInput)
+
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super().__init__(*args, **kwargs)
+
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({'class': 'form-control'})
+
+    
+    def clean_new_password1(self, *args, **kwargs):
+        new_password1 = self.cleaned_data.get("new_password1")
+        new_password2 = self.data.get("new_password2")
+   
+
+        if new_password1 != new_password2:
+            raise forms.ValidationError('Password Mismatch')
+        return new_password1
+    
+
+    def clean_current_password(self, *args, **kwargs):
+        current_password = self.cleaned_data.get("current_password")
+   
+
+        if not self.user.check_password(current_password):
+            raise forms.ValidationError('Invalid Password')
+        return current_password
