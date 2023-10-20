@@ -5,8 +5,9 @@ from django.contrib.auth import login, authenticate, logout
 from django.views import generic
 from django.views.decorators.cache import never_cache
 from django.utils.decorators import method_decorator
+from django.urls import reverse_lazy
 
-from .forms import LoginForms
+from .forms import LoginForms, RegistationForms
 from .mixins import LogoutRequiredMixin
 
 
@@ -45,3 +46,17 @@ class Logout(generic.View):
     def get(self, *args, **kwargs):
         logout(self.request)
         return redirect('login')
+    
+
+@method_decorator(never_cache, name="dispatch")
+class Registation(LogoutRequiredMixin, generic.CreateView):
+    template_name = 'account/registation.html'
+    success_url = reverse_lazy('login')
+    form_class = RegistationForms
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Registation Successfull!')
+        return super().form_valid(form)
+    
+    
+    

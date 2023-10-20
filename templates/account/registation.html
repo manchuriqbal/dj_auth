@@ -1,6 +1,6 @@
 {% extends "../base.html" %}
 
-{% block title %}Login{% endblock title %}
+{% block title %} Registation{% endblock title %}
 
 {% block content %}
 
@@ -9,31 +9,39 @@
         <form class="col-md-6" action="" method="POST">
             {% csrf_token %}
             <div class="form-group my-4">
-                <h4 class="text-muted text-dark">Login to your account</h4>
+                <h4 class="text-muted text-dark">Create your account</h4>
             </div>
             <hr>
             
             <div class="form-group my-4">
                 {% include "./messages.html" %}
             </div>
-            
             <div class="form-group my-2">
-                <label for="username">Username or Email</label>
+                <label for="username">Username</label>
                 {{form.username}}
                 {{form.username.errors}}
+            </div>
+            <div class="form-group my-2">
+                <label for="email">Email</label>
+                {{form.email}}
+                {{form.email.errors}}
             </div>
             <div class="form-group my-2">
                 <label for="password">Password</label>
                 {{form.password}}
                 {{form.password.errors}}
             </div>
+            <div class="form-group my-2">
+                <label for="password">Confirm Password</label>
+                <input class="form-control" type="password" name="password2" id="">
+            </div>
 
             <div class="form-group d-grid gap-2 my-3">
-                <button class="btn btn-dark " type="submit">Login</button>
+                <button class="btn btn-dark " type="submit">Create Account</button>
             </div>
 
             <div class="my-3 mb-2 d-flex align-items-center justify-content-center" >
-                <span>Don't have an account? Please <a class="text-decoration-none px-2 text-primary" href=" {% url "registation" %} ">Register here</a></span>
+                <span>Have an account? Please <a class="text-decoration-none px-2 text-primary" href=" {% url "login" %} ">Login here</a></span>
             </div>
         </form>
     </div>
