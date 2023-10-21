@@ -32,8 +32,10 @@
                 <button class="btn btn-dark " type="submit">Login</button>
             </div>
 
-            <div class="my-3 mb-2 d-flex align-items-center justify-content-center" >
-                <span>Don't have an account? Please <a class="text-decoration-none px-2 text-primary" href=" {% url "registation" %} ">Register here</a></span>
+            <div class="my-3 mb-2 d-flex flex-column align-items-center justify-content-center" >
+                <span>Don't have an account? Please <a class=" text-decoration-none px-2 text-primary" href=" {% url "registation" %} ">Register here</a></span>
+                <br>
+                <span><a class="text-decoration-none px-2 text-primary" href=" {% url "password_reset" %} ">Forgot Password?</a></span>
             </div>
         </form>
     </div>
